@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2021",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      // "@schemas": ["src/config/database/schemas/index"],
+      // "@guards": ["src/common/guards/index"],
+      "@modules/*": ["src/modules/*"],
+      "@messages/*": ["src/common/messages/*"],
+      // "@pipes/*": ["src/common/pipes/*"],
+      // "@services/*": ["src/common/services/*"],
+      // "@enums/*": ["src/common/enums/*"],
+      // "@interfaces/*": ["src/common/interfaces/*"],
+      // "@decorators/*": ["src/common/decorators/*"],
+      // "@dto/*": ["src/common/dto/*"],
+      // "@utils/*": ["src/common/utils/*"],
+      // "@mocks/*": ["src/common/mocks/*"]
+    }
+  }
+}

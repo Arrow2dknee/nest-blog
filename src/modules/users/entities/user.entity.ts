@@ -14,7 +14,7 @@ export class User {
   @Column({ type: 'varchar', unique: true, nullable: false, length: 255 })
   email: string;
 
-  @Column({ type: 'varchar', nullable: false, length: 60 })
+  @Column({ type: 'varchar', nullable: false, length: 60, select: false }) // this field will not get projected in find queries
   password: string;
 
   @OneToMany(() => Post, (post) => post.author, { cascade: true })

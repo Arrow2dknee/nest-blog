@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -14,11 +15,16 @@ import { Comment } from '@modules/comments/entities/comment.entity';
 import { UsersModule } from '@modules/users/users.module';
 import { PostsModule } from '@modules/posts/posts.module';
 import { CommentsModule } from '@modules/comments/comments.module';
+import { AuthModule } from '@modules/auth/auth.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+    }),
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 10,
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -35,6 +41,7 @@ import { CommentsModule } from '@modules/comments/comments.module';
     UsersModule,
     PostsModule,
     CommentsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

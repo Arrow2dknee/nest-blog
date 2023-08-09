@@ -13,7 +13,7 @@ import { User } from '@modules/users/entities/user.entity';
 import { Comment } from '@modules/comments/entities/comment.entity';
 
 @Entity()
-export class Post {
+export class Posts {
   @PrimaryGeneratedColumn()
   id: number;
 

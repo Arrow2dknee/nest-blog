@@ -10,4 +10,24 @@ export class CommentsRepository {
     @InjectRepository(Comment)
     private readonly commentRepository: Repository<Comment>,
   ) {}
+
+  async saveComment(
+    content: string,
+    postId: number,
+    userId: number,
+  ): Promise<Comment> {
+    const comment = new Comment();
+
+    Object.assign(comment, {
+      content,
+      post: postId,
+      commenter: userId,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    const newComment = await this.commentRepository.save(comment);
+
+    return newComment;
+  }
 }

@@ -20,6 +20,12 @@ export class UsersRepository {
 
   async getUserByEmail(email: string): Promise<User> {
     return this.userRepository.findOne({
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        password: true,
+      },
       where: { email },
     });
   }

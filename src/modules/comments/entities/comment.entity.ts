@@ -8,7 +8,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 
-import { Post } from '@modules/posts/entities/post.entity';
+import { Posts } from '@modules/posts/entities/post.entity';
 import { User } from '@modules/users/entities/user.entity';
 
 @Entity()
@@ -16,21 +16,26 @@ export class Comment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ type: 'varchar', length: 255, nullable: false })
   content: string;
 
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp', select: false })
   createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp', select: true })
   updatedAt: Date;
 
-  @Column({ type: 'boolean', default: false, name: 'is_deleted' })
+  @Column({
+    type: 'boolean',
+    default: false,
+    name: 'is_deleted',
+    select: false,
+  })
   isDeleted: boolean;
 
-  @ManyToOne(() => Post, (post) => post.comments, { eager: true })
+  @ManyToOne(() => Posts, (post) => post.comments, { eager: true })
   @JoinColumn({ name: 'post' })
-  post: Post;
+  post: Posts;
 
   @ManyToOne(() => User, (user) => user.comments, { eager: true })
   @JoinColumn({ name: 'commenter' })

@@ -8,7 +8,7 @@ import { AppService } from './app.service';
 
 // Entities
 import { User } from '@modules/users/entities/user.entity';
-import { Post } from '@modules/posts/entities/post.entity';
+import { Posts } from '@modules/posts/entities/post.entity';
 import { Comment } from '@modules/comments/entities/comment.entity';
 
 // Modules
@@ -33,7 +33,7 @@ import { AuthModule } from '@modules/auth/auth.module';
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [User, Post, Comment],
+      entities: [User, Posts, Comment],
       synchronize: true, // set to false in production
       logging: true,
       logger: 'simple-console',

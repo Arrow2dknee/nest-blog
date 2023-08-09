@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
-import { Post } from '@modules/posts/entities/post.entity';
+import { Posts } from '@modules/posts/entities/post.entity';
 import { Comment } from '@modules/comments/entities/comment.entity';
 
 @Entity()
@@ -17,8 +17,8 @@ export class User {
   @Column({ type: 'varchar', nullable: false, length: 60, select: false }) // this field will not get projected in find queries
   password: string;
 
-  @OneToMany(() => Post, (post) => post.author, { cascade: true })
-  posts: Post[];
+  @OneToMany(() => Posts, (post) => post.author, { cascade: true })
+  posts: Posts[];
 
   @OneToMany(() => Comment, (comment) => comment.commenter, { cascade: true })
   comments: Comment[];

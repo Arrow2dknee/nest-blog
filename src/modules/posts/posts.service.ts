@@ -9,11 +9,13 @@ import { ERROR } from '@messages/errorMessages';
 import { CreateCommentDto } from '@modules/comments/dto';
 import { CommentsService } from '@modules/comments/comments.service';
 import { Comment } from '@modules/comments/entities/comment.entity';
+import { PaginationDto } from '@dto/pagination.dto';
 
 import { PostsRepository } from './posts.repository';
 import { CreatePostDto } from './dto';
 import { IPostInfo } from './interfaces/postInfo.interface';
 import { Posts } from './entities/post.entity';
+import { IPostsByUser } from './interfaces/postsByUser.interface';
 
 @Injectable()
 export class PostsService {
@@ -77,8 +79,30 @@ export class PostsService {
     );
   }
 
-  async getPostsForLoggedInUser(userId: string): Promise<Posts[]> {
-    return this.postsRepository.findPostsByUser(Number(userId));
+  async getPostsForLoggedInUser(
+    dto: PaginationDto,
+    userId: string,
+  ): Promise<IPostsByUser> {
+    const { page } = dto;
+    dto.page = dto.page || '1';
+    dto.limit = dto.limit || '10';
+    const resultsPerPage = parseInt(dto.limit);
+    const currentPage = parseInt(dto.page) - 1;
+    const skipPage: number = resultsPerPage * currentPage;
+
+    const records = await this.postsRepository.findPostsByUser(
+      Number(userId),
+      skipPage,
+      resultsPerPage,
+    );
+
+    return {
+      totalRecords: records.totalRecords,
+      totalPages: Math.ceil(records.totalRecords / resultsPerPage),
+      currentPage: parseInt(page),
+      limit: resultsPerPage,
+      list: records.posts,
+    };
   }
 
   async postDetails(postId: string): Promise<Posts> {

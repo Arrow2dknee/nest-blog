@@ -8,16 +8,19 @@ import {
   UsePipes,
   ValidationPipe,
   Get,
+  Query,
 } from '@nestjs/common';
 
 import { AuthGuard } from '@modules/auth/auth.guard';
 import { CreateCommentDto } from '@modules/comments/dto';
 import { Comment } from '@modules/comments/entities/comment.entity';
+import { PaginationDto } from '@dto/pagination.dto';
 
 import { PostsService } from './posts.service';
 import { CreatePostDto, PostIdDto } from './dto';
 import { IPostInfo } from './interfaces/postInfo.interface';
 import { Posts } from './entities/post.entity';
+import { IPostsByUser } from './interfaces/postsByUser.interface';
 
 @Controller('posts')
 @UseGuards(AuthGuard)
@@ -43,8 +46,11 @@ export class PostsController {
   }
 
   @Get()
-  async getPosts(@Request() req: any): Promise<Posts[]> {
-    return this.postsService.getPostsForLoggedInUser(req.user);
+  async getPosts(
+    @Query() dto: PaginationDto,
+    @Request() req: any,
+  ): Promise<IPostsByUser> {
+    return this.postsService.getPostsForLoggedInUser(dto, req.user);
   }
 
   @Get('/:id')

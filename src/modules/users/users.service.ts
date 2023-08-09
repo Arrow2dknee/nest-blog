@@ -20,7 +20,9 @@ export class UsersService {
     private readonly jwtService: JWTService,
   ) {}
 
-  public async newUserRegistration(dto: RegisterUserDto): Promise<any> {
+  public async newUserRegistration(
+    dto: RegisterUserDto,
+  ): Promise<{ username: string; email: string }> {
     const { username, email, password } = dto;
 
     const userWithSimilarName = await this.usersRepository.getUserByName(

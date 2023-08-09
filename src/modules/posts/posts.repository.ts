@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 
 import { Posts } from './entities/post.entity';
 import { CreatePostDto } from './dto';
+import { IPostRecords } from './interfaces/postsByUser.interface';
 
 @Injectable()
 export class PostsRepository {
@@ -44,15 +45,28 @@ export class PostsRepository {
     return this.postRepository.save(post);
   }
 
-  async findPostsByUser(userId: number): Promise<Posts[]> {
-    return this.postRepository.find({
-      where: {
-        author: {
-          id: userId,
-        },
-        isDeleted: false,
+  async findPostsByUser(
+    userId: number,
+    skip: number,
+    limit: number,
+  ): Promise<IPostRecords> {
+    const where = {
+      author: {
+        id: userId,
       },
+      isDeleted: false,
+    };
+    const count = await this.postRepository.count({ where });
+    const posts = await this.postRepository.find({
+      where,
+      skip,
+      take: limit,
     });
+
+    return {
+      totalRecords: count,
+      posts,
+    };
   }
 
   async findPost(postId: number): Promise<Posts> {
